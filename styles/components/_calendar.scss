@@ -1,0 +1,13 @@
+.calendar{
+
+  .days-list{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    justify-content: space-around;
+    background:red;
+  }
+  .day-item{
+    flex-grow: 1;
+  }
+}
