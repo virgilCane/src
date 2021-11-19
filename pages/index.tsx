@@ -21,11 +21,11 @@ const Home: NextPage = () => {
       <div className='container-fluid'>
         <div className='row'>
           {/* Action Pane */}
-          <div className='col-md-9 p-0'>
-              {noRoute && <Calendar year='2021' month='03'/>}
+          <div className='col-md-10 p-0'>
+              {noRoute && <Calendar year='2021' month='09'/>}
           </div>
           {/* Navigation */}
-          <div className='col-md-3 p-0'>
+          <div className='col-md-2 p-0'>
             <SideBar/>
           </div>
         </div>
