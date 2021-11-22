@@ -1,0 +1,17 @@
+.sidebar{
+  background-color: $dark-aqua;
+  height:100%;
+
+  .menu-header{
+    display: flex;
+    justify-content: space-between;
+
+    .profile-btn{
+      width:20%;
+      height:3rem;
+      margin: 2% 2%;
+      background-image: url(../../public/img/tmpDp.png);
+      background-size: cover;
+    }
+  }
+ }
