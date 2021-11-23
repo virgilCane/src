@@ -8,12 +8,12 @@ const SideBar: FC = () => {
       <h2>Logo</h2>
       <button className='profile-btn rounded-circle'></button>
     </div>
-    <div>
-      <ul>
-        <li>Calendar</li>
-        <li>Contacts</li>
-        <li>Contracts</li>
-        <li>Send Broadcast </li>
+    <div className='menu-wrapper pt-5'>
+      <ul className="menu-options">
+        <li><button className='rounded-pill'>Calendar</button></li>
+        <li><button className='rounded-pill'>Contacts</button></li>
+        <li><button className='rounded-pill'>Contracts</button></li>
+        <li><button className='rounded-pill'>Send Broadcast</button></li>
       </ul>
     </div>
   </div>
