@@ -1,11 +1,11 @@
 import { FC } from "react";
-
+import Image from "next/image";
 
 const SideBar: FC = () => {
   return (
     <div className="sidebar">
     <div className='menu-header'>
-      <h2>Logo</h2>
+      <Image src='/img/logo.JPG' alt='Hooty Home' height={100} width={200} />
       <button className='profile-btn rounded-circle'></button>
     </div>
     <div className='menu-wrapper pt-5'>

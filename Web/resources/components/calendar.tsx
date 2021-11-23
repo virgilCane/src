@@ -51,15 +51,21 @@ var getEndOfMonth = (month: string, year: string) =>{
 }
 var getCalendarDates = (startDate, endDate) => {
   let calendarDates = [];
-  let gapsNeeded = moment(startDate).weekday();
-  for(let i = 0; i < gapsNeeded; i++){
+  let gapsNeededStart = moment(startDate).weekday();
+  for(let i = 0; i < gapsNeededStart; i++){
     calendarDates.push(new CalendarDate());
   }
-  
   while (startDate.toDate() <= endDate.toDate()) { //add day so that last day of month included in array
     var date = new CalendarDate(startDate.toDate());
     calendarDates.push(date);
     startDate = startDate.add(1, 'days');
+  }
+
+  let gapsNeededEnd = 7 - moment(endDate).weekday();
+  let tempEndDate = endDate;
+  for(let i = 0; i < gapsNeededEnd; i++){
+    calendarDates.push(new CalendarDate(tempEndDate.toDate()));
+    tempEndDate.add(1,'days');
   }
   return calendarDates;
 }

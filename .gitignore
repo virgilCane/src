@@ -2,6 +2,7 @@
 
 # dependencies
 Web/node_modules
+
 /.pnp
 .pnp.js
 
@@ -9,7 +10,7 @@ Web/node_modules
 /coverage
 
 # next.js
-/.next/
+Web/.next/
 /out/
 
 # production
