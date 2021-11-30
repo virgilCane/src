@@ -1,11 +1,10 @@
 import { FC } from "react";
 import  * as moment from "moment";
 import CalendarDate from '../models/calendar-date';
-//const moment = require("moment");
 
 interface props {
-  month: string,
-  year:string
+  month: number,
+  year:number
 }
 
  
@@ -13,18 +12,18 @@ const Calendar: FC<props> = ({month, year}) => {
   const startOfMonth = getStartOfMonth(month, year);
   const endOfMonth = getEndOfMonth(month, year);
   const calendarDates = getCalendarDates(startOfMonth, endOfMonth);
-  console.log(calendarDates);
+  console.log(calendarDates)
   return ( 
     <div className='w-100'>
       <div className='calendar'>
         <ul className='days-list p-0 m-0'>
+          <li className='day-item day-label text-uppercase'>Sun</li>
           <li className='day-item day-label text-uppercase'>Mon</li>
           <li className='day-item day-label text-uppercase'>Tue</li>
           <li className='day-item day-label text-uppercase'>Wed</li>
           <li className='day-item day-label text-uppercase'>Thu</li>
           <li className='day-item day-label text-uppercase'>Fri</li>
           <li className='day-item day-label text-uppercase'>Sat</li>
-          <li className='day-item day-label text-uppercase'>Sun</li>
         </ul>
         <ul className='date-list p-0'>
           {calendarDates.map((d, i) => {
@@ -43,10 +42,10 @@ const Calendar: FC<props> = ({month, year}) => {
      );
 }
 
-var getStartOfMonth = (month: string, year: string) =>{
+var getStartOfMonth = (month: number, year: number) =>{
   return moment({ year: year, month: month}).startOf("month").add(6,'hours');
 }
-var getEndOfMonth = (month: string, year: string) =>{
+var getEndOfMonth = (month: number, year: number) =>{
   return moment({ year: year, month: month}).endOf("month").add(6,'hours');
 }
 var getCalendarDates = (startDate, endDate) => {
