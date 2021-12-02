@@ -9,6 +9,9 @@ Web/node_modules
 # testing
 /coverage
 
+#wireframes
+/wireframes
+
 # next.js
 Web/.next/
 /out/

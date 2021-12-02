@@ -1,7 +1,18 @@
 import { FC } from "react";
 import Image from "next/image";
+import Routes from "../constants/routes";
 
-const SideBar: FC = () => {
+
+interface props{
+  redirect(route:string):void;
+}
+
+const SideBar: FC<props> = ({redirect}) => {
+
+  const onNavClick = (route:string):void =>{
+    redirect(route);
+  }
+
   return (
     <div className="sidebar">
     <div className='menu-header'>
@@ -10,10 +21,10 @@ const SideBar: FC = () => {
     </div>
     <div className='menu-wrapper pt-5'>
       <ul className="menu-options">
-        <li><button className='rounded-pill'>Calendar</button></li>
-        <li><button className='rounded-pill'>Contacts</button></li>
-        <li><button className='rounded-pill'>Contracts</button></li>
-        <li><button className='rounded-pill'>Send Broadcast</button></li>
+        <li><button className='rounded-pill' onClick={() => onNavClick(Routes.home)}>Calendar</button></li>
+        <li><button className='rounded-pill' onClick={() =>onNavClick(Routes.contacts)}>Contacts</button></li>
+        <li><button className='rounded-pill' onClick={() =>onNavClick(Routes.contracts)}>Contracts</button></li>
+        <li><button className='rounded-pill' >Send Broadcast</button></li>
       </ul>
     </div>
   </div>

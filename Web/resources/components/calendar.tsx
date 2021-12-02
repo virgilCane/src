@@ -7,7 +7,6 @@ interface props {
   year:number
 }
 
- 
 const Calendar: FC<props> = ({month, year}) => {
   const startOfMonth = getStartOfMonth(month, year);
   const endOfMonth = getEndOfMonth(month, year);
@@ -30,7 +29,6 @@ const Calendar: FC<props> = ({month, year}) => {
             return(
               <li key={i} className='date-item date'>
                 <div className='d-flex justify-content-end'>
-
                   {d.date &&  <span>{d.date.getUTCDate()}</span>}
                 </div>
               </li>
