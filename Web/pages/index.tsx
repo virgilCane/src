@@ -22,7 +22,7 @@ const Home: NextPage = () => {
   return (
       <div>
         <Head>
-          <title>Homely</title>
+          <title>Hooty Home</title>
           <meta name="description" content="An App to Make You Want to Kill Your Flatmates Less" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
