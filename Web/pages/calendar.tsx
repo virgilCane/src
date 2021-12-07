@@ -13,11 +13,13 @@ const Calendar: NextPage = () => {
       var getCalendarDates = (startDate, endDate) => {
         let calendarDates = [];
         let gapsNeededStart = moment(startDate).weekday();
+        let tempStartDate = startDate.subtract(gapsNeededStart, 'days');
         for(let i = 0; i < gapsNeededStart; i++){
-          calendarDates.push(new CalendarDate());
+          calendarDates.push(new CalendarDate(tempStartDate.toDate(), false));
+          tempStartDate.add(1, 'days');
         }
         while (startDate.toDate() <= endDate.toDate()) { //add day so that last day of month included in array
-          var date = new CalendarDate(startDate.toDate());
+          var date = new CalendarDate(startDate.toDate(), true);
           calendarDates.push(date);
           startDate = startDate.add(1, 'days');
         }
@@ -25,7 +27,7 @@ const Calendar: NextPage = () => {
         let gapsNeededEnd = 7 - moment(endDate).weekday();
         let tempEndDate = endDate;
         for(let i = 0; i < gapsNeededEnd; i++){
-          calendarDates.push(new CalendarDate(tempEndDate.toDate()));
+          calendarDates.push(new CalendarDate(tempEndDate.toDate(), false));
           tempEndDate.add(1,'days');
         }
         return calendarDates;
@@ -55,7 +57,7 @@ const Calendar: NextPage = () => {
             {calendarDates.map((d, i) => {
               return(
                 <li key={i} className='date-item date'>
-                  <div className='d-flex justify-content-end'>
+                  <div className={`d-flex justify-content-end ${d.isInMonth ? "active" : ""}`}>
                     {d.date &&  <span>{d.date.getUTCDate()}</span>}
                   </div>
                 </li>
