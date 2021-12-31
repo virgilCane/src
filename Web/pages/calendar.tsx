@@ -56,8 +56,8 @@ const Calendar: NextPage = () => {
           <ul className='date-list p-0'>
             {calendarDates.map((d, i) => {
               return(
-                <li key={i} className='date-item date'>
-                  <div className={`d-flex justify-content-end ${d.isInMonth ? "active" : ""}`}>
+                <li key={i} className={`date-item date ${d.isInMonth ? "active" : ""}`}>
+                  <div className={`d-flex justify-content-end`}>
                     {d.date &&  <span>{d.date.getUTCDate()}</span>}
                   </div>
                 </li>
