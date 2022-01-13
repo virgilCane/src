@@ -1,3 +1,5 @@
+using HootyHome.AppService.Events;
+using HootyHome.Infrastructure.Base;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +28,16 @@ namespace Homely.WebApi
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      var appOptions = Configuration.Get<AppOptions>();
+      //makes appOptions available to IServiceProvider through DI
+      //https://www.c-sharpcorner.com/article/asp-net-core-how-to-acces-configurations-using-options-pattern/
+      services.Configure<AppOptions>(Configuration);
+      //DI
+      services.AddTransient((serviceProvider) =>
+      {
+        return new GenericRepo(appOptions.ConnectionString);
+      });
+      services.AddTransient<EventsApplicationService>();
 
       services.AddControllers();
       services.AddSwaggerGen(c =>

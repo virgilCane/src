@@ -12,7 +12,7 @@ namespace HootyHome.Domain.Events
         public DateTime DateCreated { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }
-        public List<Guid>? Flatmates { get; set; }
-        public Guid Creator { get; set; }
+        public List<Guid>? Participants { get; set; }
+        public Guid Owner { get; set; }
     }
 }

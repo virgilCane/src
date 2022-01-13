@@ -39,16 +39,26 @@ namespace HootyHome.Infrastructure.Base
             }
         }
 
-        public async Task<T> QueryAsync<T>(string proc, DynamicParameters p)
+        public async Task<IEnumerable<T>> QueryAsync<T>(string proc, DynamicParameters p)
         {
-            return await WithConnectionAsync(async c => {
-                var result = await c.QueryAsync<T>(
-                    sql: proc,
-                    param: p,
-                    commandType: CommandType.StoredProcedure);
-                return result.FirstOrDefault();
-            });
-        }
+          //return await WithConnectionAsync(async c => {
+          //    var result = await c.QueryAsync<T>(
+          //        sql: proc,
+          //        param: p,
+          //        commandType: CommandType.StoredProcedure);
+          //    return result.FirstOrDefault();
+          //}); --REVIEW FOR DELETION
+          using (var connection = new SqlConnection(_connectionString))
+          {
+            await connection.OpenAsync(); // Asynchronously open a connection to the database
+                                          //return await execute(connection); // Asynchronously execute getData, which has been passed in as a Func<IDBConnection, Task<T>>
+            return await connection.QueryAsync<T>(
+               sql: proc,
+               param: p,
+               commandType: CommandType.StoredProcedure
+              );
+          }
+    }
 
         public async void ExecuteAsync(object obj, string proc)
         {

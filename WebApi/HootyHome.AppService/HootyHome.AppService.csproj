@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HootyHome.Domain\HootyHome.Domain.csproj" />
+    <ProjectReference Include="..\HootyHome.Infrastructure\HootyHome.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
