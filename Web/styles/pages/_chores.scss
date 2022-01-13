@@ -1,0 +1,21 @@
+.chores-page{
+    height: 1vh;
+}
+.chores{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    .column-wrapper{
+        flex-grow: 0;
+        flex-basis: auto;
+        .column-header{
+            text-align:center;
+        }
+        .column{
+            border: 1px solid $dark-aqua;
+            border-radius: 25%;           
+        }
+    }
+  
+}

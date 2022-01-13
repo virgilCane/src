@@ -25,6 +25,11 @@
   .date-item{
     border: 1px solid $dark-aqua;
     flex-basis: 14.2861%;
+    background-color:$disabled;
+  }
+  .date-item.active{
+    border: 1px solid $dark-aqua;
+    flex-basis: 14.2861%;
     background:$canvas;
   }
 
