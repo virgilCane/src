@@ -17,14 +17,14 @@ namespace HootyHome.AppService.Events
     {
       _eventsRepo = eventsRepo;
     }
-    public async Task<List<Event>> GetEvents()
+    public async Task<List<Event>> GetEvents(int? month, DateTime? exactDateDue)
     {
       try
       {
-        DynamicParameters parms = new DynamicParameters();
-        //parms.Add("Owner", "Milo Minderbinder");
-        //parms.Add("DueDate", new DateTime());
-        var events = (await _eventsRepo.QueryAsync<Event>("GetEvents", parms));
+        var parms = new DynamicParameters();
+        parms.Add("month", month);
+        parms.Add("exactDateDue", exactDateDue);
+        var events = await _eventsRepo.QueryAsync<Event>("GetEvents", parms);
         return events.ToList();
       }catch(Exception e)
       {
@@ -32,6 +32,27 @@ namespace HootyHome.AppService.Events
         return default;
       }
   
+    }
+
+    public async Task<bool> AddEvent(Event dateEvent)
+    {
+      try
+      {
+        var eventId = await _eventsRepo.ExecuteAsync(dateEvent,"AddEvent");
+        //Insert List into SQL
+        //https://stackoverflow.com/questions/17150542/how-to-insert-a-c-sharp-list-to-database-using-dapper-net
+        //vs ??
+        //Passing List/array to SPROC:
+        //https://stackoverflow.com/questions/11102358/how-to-pass-an-array-into-a-sql-server-stored-procedure
+        //Insert Participants here
+
+        return (eventId  != 0) ? true : false;
+      }
+      catch (Exception e)
+      {
+        //TODO: Implement error logging/handling
+        return default;
+      }
     }
   }
 }

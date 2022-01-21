@@ -1,7 +1,9 @@
 ﻿using HootyHome.AppService.Events;
 using HootyHome.Domain.Events;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,9 +22,9 @@ namespace Homely.WebApi.Controllers
     }
     // GET: api/<ValuesController1>
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get(int? month, DateTime? exactDate)
     {
-      var events = await _eventsService.GetEvents();
+      var events = await _eventsService.GetEvents(month, exactDate);
       return Ok(events);
     }
 
@@ -35,8 +37,12 @@ namespace Homely.WebApi.Controllers
 
     // POST api/<ValuesController1>
     [HttpPost]
-    public void Post([FromBody] string value)
+    public async Task<IActionResult> Post([FromBody] Event dateEvent)
     {
+      var eventAdded = await _eventsService.AddEvent(dateEvent);
+      if (eventAdded)
+        return Ok();
+      return BadRequest();
     }
 
     // PUT api/<ValuesController1>/5

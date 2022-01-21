@@ -11,29 +11,61 @@ drop procedure if exists GetEvents
 go
 CREATE PROCEDURE [dbo].[GetEvents]
         (
-        @Owner              uniqueIdentifier = null,
-        @DueDate            datetime         = null
+        @month              int              = null,
+        @exactDateDue       datetime         = null,
+        @Owner              int              = null 
         )
 AS
-declare @events table
-       (
-         DueDate        datetime,
-         DateCreated    datetime,
-         [Name]         nvarchar(max),
-         [Description]  nvarchar(max),
-         [Owner]        uniqueIdentifier
-       )
+  declare @events table
+        ( [Id]              int,
+          [Name]            nvarchar(max),
+          [Description]     nvarchar(max),
+          DueDate           datetime,
+          DateCreated       datetime,
+          [Owner]           int)
 
-Insert Into @events
-       values(GETDATE(), GETDATE(), 'Wash Dishes', 'The Dishes must be washed', NEWID())
+  insert @events
+       (  [Id],
+          [Name],
+          [Description],
+          [DueDate],
+          [DateCreated],
+          [Owner] )
+  select  evt.Id,
+          evt.[Name],
+          evt.[Description],
+          evt.DueDate,
+          evt.DateCreated,
+          evu.UserId  as [Owner]
+    from Events evt
+      left join EventsUsers evu
+        on evt.Id = evu.EventId
+  where evu.isOwner = 1
 
-select DueDate,
-       DateCreated,
-       [Name],
-       [Description],
-       [Owner]
-    from @events
+  select [Id],
+         [Name],
+         [Description],
+         [DueDate],
+         [DateCreated],
+         [Owner]
+    from @events evt
+  where 1 = case
+              when coalesce(@owner,-1) = -1       then 1
+              when coalesce(@Owner,0) = [Owner] then 1
+              else 0
+            end
+    and 1 = case
+              when ISNULL(@exactDateDue, 1) = 1 then 1
+              when @exactDateDue = DueDate then 1
+              else 0
+            end
+    and 1 = case
+              when ISNULL(@month, -1) = -1 then 1
+              when coalesce(@month, -1) = MONTH(evt.DueDate) then 1
+              else 0
+            end
+
 Go
 
 
---exec GetEvents @Owner = "06511AE0-1602-4D28-A8EF-4BB41E23C00A", @DueDate = "2022-01-13 08:08:26.330"
+--exec GetEvents @Owner = '1', @month = '1', @exactDateDue = "2022-01-18 08:27:23.420"
