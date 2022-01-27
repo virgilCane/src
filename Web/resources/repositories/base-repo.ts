@@ -1,16 +1,33 @@
+import DateEvent from "../models/date-event";
 
 const axios = require('axios').default;
-const api = axios.create({
-  baseUrl: 'https://localhost:44304/',
-  timeout: 1000
-});
+
 
 export class BaseRepo{
+  path:string;
+  api: any
 
-  async get(path:string){
+constructor(path: string){
+  this.path = path;
+  this.api = axios.create({
+    baseURL: 'https://localhost:44304/api/',
+    timeout: 1000
+  });
+}
+
+  get(parms: any){
     try{
-      const response = await api.get(path);
-      console.log(response);
+      let queryString = "";
+      Object.entries(parms).forEach(([key, value]) => {
+      if (value)
+      queryString += !queryString ? `?${key}=${value}` : `&${key}=${value}`;
+      });
+       return this.api.get(`${this.path}${queryString}`)
+      .then(res =>res.data)
+      .catch((err:any) =>{
+        console.log(err);
+      });
+      
     }catch(error){
       console.log(error);
     }
@@ -18,7 +35,7 @@ export class BaseRepo{
 
   async post(path:string, body:any){
     try{
-      const response = await api.post(path, body);
+      const response = await this.api.post(path, body);
       console.log(response);
     }catch(error){
       console.log(error);
@@ -27,7 +44,7 @@ export class BaseRepo{
 
   async put(path:string, body:any){
     try{
-      const response = await api.put(path, body);
+      const response = await this.api.put(path, body);
       console.log(response);
     }catch(error){
       console.log(error);
@@ -36,7 +53,7 @@ export class BaseRepo{
 
   async delete(path:string){
     try{
-      const response = await api.delete(path);
+      const response = await this.api.delete(path);
       console.log(response);
     }catch(error){
       console.log(error);

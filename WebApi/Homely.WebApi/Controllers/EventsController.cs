@@ -22,9 +22,9 @@ namespace Homely.WebApi.Controllers
     }
     // GET: api/<ValuesController1>
     [HttpGet]
-    public async Task<IActionResult> Get(int? month, DateTime? exactDate)
+    public async Task<IActionResult> Get(int? month, DateTime? dueDate)
     {
-      var events = await _eventsService.GetEvents(month, exactDate);
+      var events = await _eventsService.GetEvents(month, dueDate);
       return Ok(events);
     }
 

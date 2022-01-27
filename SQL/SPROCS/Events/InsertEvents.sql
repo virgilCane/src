@@ -48,7 +48,7 @@ as
 
   Update EventsUsers
     Set EventId = @Id
-
+  where Id = @eventsUsersId
 
 
  if (@@rowcount <> 1 or @@error <> 0)

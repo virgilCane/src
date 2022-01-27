@@ -1,25 +1,32 @@
 import { NextPage } from "next";
 import  * as moment from "moment";
 import CalendarDate from '../resources/models/calendar-date';
+import { EventRepo } from "../resources/repositories/event-repo";
+import EventSearchFilters from "../resources/models/event-search-filters";
 
 
 const Calendar: NextPage = () => {
+   
+    const eventRepo = new EventRepo();
     const getStartOfMonth = (month: number, year: number) =>{
         return moment({ year: year, month: month}).startOf("month").add(6,'hours');
       }
     const getEndOfMonth = (month: number, year: number) =>{
       return moment({ year: year, month: month}).endOf("month").add(6,'hours');
     }
-    const getCalendarDates = (startDate, endDate) => {
-      let calendarDates = [];
+    const getCalendarDates =  (startDate, endDate) => {
+      let calendarDates = new Array<CalendarDate>();
       let gapsNeededStart = moment(startDate).weekday();
       let tempStartDate = startDate.subtract(gapsNeededStart, 'days');
       for(let i = 0; i < gapsNeededStart; i++){
-        calendarDates.push(new CalendarDate(tempStartDate.toDate(), false));
+        calendarDates.push(new CalendarDate({date: tempStartDate.toDate(), isInMonth: false}));
         tempStartDate.add(1, 'days');
       }
       while (startDate.toDate() <= endDate.toDate()) { //add day so that last day of month included in array
-        var date = new CalendarDate(startDate.toDate(), true);
+        let eventSearchFilters = new EventSearchFilters();
+        eventSearchFilters.dueDate = startDate.toDate();
+        let events = eventRepo.getAllEvents(eventSearchFilters);
+        let date = new CalendarDate({date: startDate.toDate(),isInMonth: true});
         calendarDates.push(date);
         startDate = startDate.add(1, 'days');
       }
@@ -27,7 +34,7 @@ const Calendar: NextPage = () => {
       let gapsNeededEnd = 7 - moment(endDate).weekday();
       let tempEndDate = endDate;
       for(let i = 0; i < gapsNeededEnd; i++){
-        calendarDates.push(new CalendarDate(tempEndDate.toDate(), false));
+        calendarDates.push(new CalendarDate({date: tempEndDate.toDate(),isInMonth: false}));
         tempEndDate.add(1,'days');
       }
       return calendarDates;
@@ -41,7 +48,7 @@ const Calendar: NextPage = () => {
 
     const startOfMonth = getStartOfMonth(month, year);
     const endOfMonth = getEndOfMonth(month, year);
-    const calendarDates = getCalendarDates(startOfMonth, endOfMonth);
+    const calendarDates =  getCalendarDates(startOfMonth, endOfMonth);
    
     
     return(
@@ -68,7 +75,7 @@ const Calendar: NextPage = () => {
             })}
           </ul>
         </div>
-        {calendarDates.map((d, i) => {
+        {/* {calendarDates.map((d, i) => {
           return(
             <div key={i}  className="modal fade" id={`date-modal-${i}`} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
@@ -90,7 +97,7 @@ const Calendar: NextPage = () => {
             </div>
           </div>
           )
-        })}
+        })} */}
       </main>
     );
 

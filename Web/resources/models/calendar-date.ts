@@ -1,15 +1,19 @@
+import DateEvent from "./date-event";
 
 
 export default class CalendarDate{
   date:Date;
-  isInMonth: boolean
+  isInMonth: boolean;
+  events: Array<DateEvent>;
 
   constructor(
-    date: Date,
-    isInMonth: boolean
+    {date,
+    isInMonth,
+    events} : Partial<CalendarDate> = {}
     
     ){
     this.date = date;
-    this.isInMonth = isInMonth
+    this.isInMonth = isInMonth;
+    this.events = events;
   }
 }

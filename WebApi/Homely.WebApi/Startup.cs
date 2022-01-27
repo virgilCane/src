@@ -32,6 +32,8 @@ namespace Homely.WebApi
       //makes appOptions available to IServiceProvider through DI
       //https://www.c-sharpcorner.com/article/asp-net-core-how-to-acces-configurations-using-options-pattern/
       services.Configure<AppOptions>(Configuration);
+
+      ConfigureCors(services, appOptions);
       //DI
       services.AddTransient((serviceProvider) =>
       {
@@ -57,7 +59,7 @@ namespace Homely.WebApi
       }
 
       app.UseHttpsRedirection();
-
+      app.UseCors("CorsPolicy");
       app.UseRouting();
 
       app.UseAuthorization();
@@ -65,6 +67,17 @@ namespace Homely.WebApi
       app.UseEndpoints(endpoints =>
       {
         endpoints.MapControllers();
+      });
+    }
+    private void ConfigureCors(IServiceCollection services, AppOptions appOptions)
+    {
+      // https://weblog.west-wind.com/posts/2016/Sep/26/ASPNET-Core-and-CORS-Gotchas
+      services.AddCors(options =>
+      {
+        options.AddPolicy("CorsPolicy",
+          builder => builder.WithOrigins(appOptions.CorsOrigins)
+            .AllowAnyMethod()
+            .AllowAnyHeader());
       });
     }
   }

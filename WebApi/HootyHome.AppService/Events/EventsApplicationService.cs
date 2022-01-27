@@ -38,7 +38,8 @@ namespace HootyHome.AppService.Events
     {
       try
       {
-        var eventId = await _eventsRepo.ExecuteAsync(dateEvent,"AddEvent");
+        var eventIdCollection = await _eventsRepo.QueryAsync<int>("InsertEvent", dateEvent);
+        var eventId = eventIdCollection.ToList().SingleOrDefault();
         //Insert List into SQL
         //https://stackoverflow.com/questions/17150542/how-to-insert-a-c-sharp-list-to-database-using-dapper-net
         //vs ??
